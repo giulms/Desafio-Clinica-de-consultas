@@ -74,12 +74,13 @@ def Marcar_consulta():
         print(f"Consulta no cadastro de {cadastro[resposta-1]["nome"]}\n")
         dia = input("Digite a data da consulta (dd/mm/aaaa):\n")
         if dia < data_atual:
-            print("Está data não pode ser agendada")
+            Limpar()
+            print("Está data não pode ser agendada!\n")
             input("Digite qualquer tecla para marcar novamente:\n")
             Marcar_consulta()
         horario = input("Digite o horário da consulta (hh:mm):\n")
         especialidade = input("Digite a especialidade desejada da consulta:\n")
-        if not Buscar_dias(dia,data_atual) and not Buscar_horario(horario,dia):
+        if not Buscar_dias(dia) and not Buscar_horario(horario,dia):
             Fazer_consultas(nome, dia, horario, especialidade)
     elif escolha_paciente == 2:
         Marcar_consulta()
@@ -145,18 +146,13 @@ def Buscar_numero(telefone):
             return True
     return False
 
-def Buscar_dias(dia, data_atual):
+def Buscar_dias(dia):
     consultas = Ler_arquivo_json("consultas.json")
     for consulta in consultas:
         if consulta["dia"] == dia:
             print("Este dia já está agendado!")
             input("\nDigite qualquer tecla para voltar:\n")
             Limpar()    
-            return True
-        elif consulta["dia"] < data_atual:
-            print("Esta data não pode ser marcada!")
-            input("\nDigite qualquer tecla para voltar:\n")
-            Limpar()
             return True
     return False  
 
