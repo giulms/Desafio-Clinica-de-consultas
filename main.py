@@ -73,6 +73,10 @@ def Marcar_consulta():
         nome = cadastro[resposta-1]["nome"]
         print(f"Consulta no cadastro de {cadastro[resposta-1]["nome"]}\n")
         dia = input("Digite a data da consulta (dd/mm/aaaa):\n")
+        if dia < data_atual:
+            print("Está data não pode ser agendada")
+            input("Digite qualquer tecla para marcar novamente:\n")
+            Marcar_consulta()
         horario = input("Digite o horário da consulta (hh:mm):\n")
         especialidade = input("Digite a especialidade desejada da consulta:\n")
         if not Buscar_dias(dia,data_atual) and not Buscar_horario(horario,dia):
