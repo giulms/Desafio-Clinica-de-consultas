@@ -3,6 +3,10 @@ import os
 from datetime import datetime
 
 data_atual = datetime.now().strftime("%d/%m/%Y")
+dia, mes, ano = data_atual.split("/")
+dia = int(dia)
+mes = int(mes)
+ano = int(ano)
 
 def Ler_arquivo_json(caminho_arquivo):
     with open(caminho_arquivo,"r") as arquivo:
@@ -73,11 +77,17 @@ def Marcar_consulta():
         nome = cadastro[resposta-1]["nome"]
         print(f"Consulta no cadastro de {cadastro[resposta-1]["nome"]}\n")
         dia = input("Digite a data da consulta (dd/mm/aaaa):\n")
-        if dia < data_atual:
-            Limpar()
-            print("Está data não pode ser agendada!\n")
-            input("Digite qualquer tecla para marcar novamente:\n")
-            Marcar_consulta()
+        dia_input,mes_input,ano_input = dia.split("/")
+        dia_input = int(dia_input)
+        mes_input = int(mes_input)
+        ano_input = int(ano_input)
+        if ano_input < ano:
+            if mes_input < mes:
+                if dia_input < ano:
+                    Limpar()
+                    print("Está data não pode ser agendada!\n")
+                    input("Digite qualquer tecla para marcar novamente:\n")
+                    Marcar_consulta()
         horario = input("Digite o horário da consulta (hh:mm):\n")
         especialidade = input("Digite a especialidade desejada da consulta:\n")
         if not Buscar_dias(dia) and not Buscar_horario(horario,dia):
