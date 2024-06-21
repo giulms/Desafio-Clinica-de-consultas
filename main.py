@@ -90,7 +90,7 @@ def Marcar_consulta():
                     Marcar_consulta()
         horario = input("Digite o horário da consulta (hh:mm):\n")
         especialidade = input("Digite a especialidade desejada da consulta:\n")
-        if not Buscar_dias(dia) and not Buscar_horario(horario,dia):
+        if not Buscar_dias(dia,horario) and not Buscar_horario(horario,dia):
             Fazer_consultas(nome, dia, horario, especialidade)
     elif escolha_paciente == 2:
         Marcar_consulta()
@@ -156,10 +156,10 @@ def Buscar_numero(telefone):
             return True
     return False
 
-def Buscar_dias(dia):
+def Buscar_dias(dia,horario):
     consultas = Ler_arquivo_json("consultas.json")
     for consulta in consultas:
-        if consulta["dia"] == dia:
+        if consulta["dia"] == dia and consulta["horario"] == horario:
             print("Este dia já está agendado!")
             input("\nDigite qualquer tecla para voltar:\n")
             Limpar()    
@@ -191,7 +191,7 @@ def Escolha_lista_de_consulta():
         print(f"dia: {consulta[resposta-1]["dia"]}")
         print(f"horario: {consulta[resposta-1]["horario"]}")
         print(f"especialidade: {consulta[resposta-1]["especialidade"]}")
-        print("1. Listas de consulta")
+        print("1. Lista de consultas")
         print("2. Voltar ao menu principal")
         return resposta
 
@@ -222,7 +222,6 @@ def main():
         elif resposta_inicial == 3:
             Cancelar_consulta()
         elif resposta_inicial == 4:
-            
             Lista_consulta_marcadas()
         elif resposta_inicial == 5:
             print("Saindo...")
